@@ -1,3 +1,35 @@
 body {
-    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.squares-container {
+    /* display: flex; */
+    width: 560px;
+    height: 560px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    box-sizing: content-box;
+    /* flex-wrap: wrap; */
+    display: grid;
+}
+
+.squares-container div {
+    transition: background-color, 0.57s;
+}
+
+.square {
+    border: 1px solid rgb(4, 0, 255);
+    background-color: aqua;
+    box-sizing: border-box;
+    
+
+}
+
+.squares-container div {
+    transition, background-color, 1s;
 }
