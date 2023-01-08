@@ -1,35 +1,51 @@
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
 .squares-container {
-    /* display: flex; */
-    width: 560px;
-    height: 560px;
-    border: 2px solid #000;
-    border-radius: 5px;
-    box-sizing: content-box;
-    /* flex-wrap: wrap; */
-    display: grid;
-}
-
-.squares-container div {
-    transition: background-color, 0.57s;
+  /* display: flex; */
+  width: 560px;
+  height: 560px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  box-sizing: content-box;
+  /* flex-wrap: wrap; */
+  display: grid;
 }
 
 .square {
-    border: 1px solid rgb(4, 0, 255);
-    background-color: aqua;
-    box-sizing: border-box;
-    
-
+  border: 1px solid rgb(4, 0, 255);
+  background-color: aqua;
+  box-sizing: border-box;
 }
 
 .squares-container div {
-    transition, background-color, 1s;
+  transition: background-color linear;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #ffffff00;
+  border: 2px solid #000;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #c0c0c0;
+  color: #fff;
+}
+
+.btn-pushed:hover {
+  background-color: #505050;
+  color: #fff;
+}
+
+.btn-pushed {
+  background-color: #242424;
+  color: #fff;
 }
