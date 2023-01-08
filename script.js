@@ -37,6 +37,7 @@ function createSquares(num) {
   const arr = [];
   for (let i = 0; i < num * num; i++) {
     tempSquare = square.cloneNode(true);
+    tempSquare.style.backgroundColor = "#f2eeed";
     tempSquare.addEventListener("mouseenter", (e) => onEnterSquare(e));
     if (boolVanishing) {
       tempSquare.addEventListener("mouseleave", (e) => onLeaveSquare(e));
@@ -142,3 +143,9 @@ function disableDragAndDrop() {
 }
 
 disableDragAndDrop();
+
+color = 'rgba(149, 232, 65, 0.8)';
+arr = color.slice(5, color.length - 1);
+arr = arr.replace(/ /g, "");
+console.log(arr);
+

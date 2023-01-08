@@ -7,15 +7,48 @@ body {
   margin: 0;
 }
 
+.etch-container {
+  padding: 30px;
+  background-color: #fb222a;
+  box-shadow: 0 0 5px 1px #df242a;
+  border-radius: 10px;
+  position: relative;
+}
+
+.inner-etch-container {
+  padding: 100px;
+  background-color: #ee0e0e;
+  box-shadow: 0 0 3px 4px #f01f24;
+  border-radius: 5px;
+}
+
+.knob {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background: #f9f8fd;
+    border-radius: 50%;
+}
+
+.left-knob {
+    box-shadow: 1px -2px 2px 3px #d7c8cf;
+    bottom: 14px;
+    left: 20px;
+}
+
+.right-knob {
+    box-shadow: -1px -2px 2px 3px #d7c8cf;
+    bottom: 14px;
+    right: 20px;
+}
 .squares-container {
-  /* display: flex; */
   width: 560px;
   height: 560px;
   border: 2px solid #000;
   border-radius: 5px;
   box-sizing: content-box;
-  /* flex-wrap: wrap; */
   display: grid;
+  box-shadow: 0 0 3px 16px #e95757;
 }
 
 .square {
