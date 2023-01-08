@@ -5,6 +5,8 @@ const MAXSQUARES = 100;
 
 let boolOnHover = false;
 let boolVanishing = false;
+let boolRainbow = false;
+let boolDarken = false;
 
 const squaresContainer = document.querySelector(".squares-container");
 const input = document.querySelector("input");
@@ -47,7 +49,21 @@ function createSquares(num) {
 function onEnterSquare(hoveredSquareEvent) {
   if (boolOnHover || hoveredSquareEvent.buttons > 0) {
     const hoveredSquare = hoveredSquareEvent.target;
-    hoveredSquare.style.backgroundColor = "rgb(0, 0, 0)";
+    if (boolRainbow) {
+      hoveredSquare.style.backgroundColor = randomColor();
+    } else if (boolDarken) {
+      if (hoveredSquare.style.backgroundColor !== "rgb(0, 0, 0)") {
+        hoveredSquare.style.opacity = 0;
+        hoveredSquare.style.backgroundColor = "#000";
+      }
+      newOpacity = (parseInt(hoveredSquare.style.opacity * 10) + 1) / 10;
+      if (hoveredSquare.style.opacity >= 1) {
+        newOpacity = 1;
+      }
+      hoveredSquare.style.opacity = newOpacity;
+    } else {
+      hoveredSquare.style.backgroundColor = "rgb(0, 0, 0)";
+    }
     hoveredSquare.style.transitionDuration = TRANSITIONINTIME + "s";
   }
 }
@@ -58,6 +74,22 @@ function onLeaveSquare(hoveredSquareEvent) {
     hoveredSquare.style.transitionDuration = TRANSITIONOUTTIME + "s";
     hoveredSquare.style.backgroundColor = "rgb(255, 255, 255)";
   }, TRANSITIONINTIME * 1000);
+}
+
+function random(n) {
+  return Math.floor(Math.random() * n);
+}
+
+function randomColor() {
+  return `rgb(${random(256)}, ${random(256)}, ${random(256)})`;
+}
+
+function calculateColor(currentColor) {
+  let newColor;
+  if ((currentColor = "")) return "rgba(0, 0, 0, 0)";
+  console.log(currentColor);
+  const alpha = parseInt(currentColor.split(",")[3].slice(0, -1));
+  return `rgba(0, 0, 0, ${alpha + 0.1})`;
 }
 
 // input field redraw
@@ -74,6 +106,8 @@ resetButton.addEventListener("click", () => {
 
 btnVanishing = document.querySelector(".btn-vanishing");
 btnOnHover = document.querySelector(".btn-on-hover");
+btnRainbow = document.querySelector(".btn-rainbow");
+btnDarken = document.querySelector(".btn-darken");
 
 btnVanishing.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
@@ -87,5 +121,24 @@ btnOnHover.addEventListener("click", (e) => {
   drawBoard(input.value);
 });
 
-window.addEventListener("mousedown", () => (isMouseDown = true));
-window.addEventListener("mouseup", () => (isMouseDown = false));
+btnRainbow.addEventListener("click", (e) => {
+  e.target.classList.toggle("btn-pushed");
+  boolRainbow = !boolRainbow;
+  drawBoard(input.value);
+});
+
+btnDarken.addEventListener("click", (e) => {
+  e.target.classList.toggle("btn-pushed");
+  boolDarken = !boolDarken;
+  drawBoard(input.value);
+});
+
+
+function disableDragAndDrop() {
+  const body = document.querySelector("body");
+  body.addEventListener("dragstart",(event)=>{
+    event.preventDefault();
+  })
+}
+
+disableDragAndDrop();
