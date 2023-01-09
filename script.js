@@ -282,6 +282,21 @@ colorPicker.addEventListener("input", (e) => {
   dummy = document.createElement("p");
   dummy.style.backgroundColor = e.target.value;
   currentBackground = dummy.style.backgroundColor;
+
+  boolEraser = false;
+  btnEraser.classList.remove("btn-pushed");
+
+  boolVanishing = false;
+  btnVanishing.classList.remove("btn-pushed");
+
+  boolOnHover = false;
+  btnOnHover.classList.remove("btn-pushed");
+
+  boolRainbow = false;
+  btnRainbow.classList.remove("btn-pushed");
+
+  boolDarken = false;
+  btnDarken.classList.remove("btn-pushed");
 });
 
 // disabling drag and drop prevents a grab icon from showing up during drawing
