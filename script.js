@@ -3,8 +3,8 @@ const TRANSITIONINTIME = 0.7;
 const TRANSITIONOUTTIME = 3;
 const MAXSQUARES = 100;
 
-const WHITEBACKGROUND = 'rgba(242, 238, 237, 1)';
-const BLACKBACKGROUND = 'rgba(0, 0, 0, 1)';
+const WHITEBACKGROUND = "rgba(242, 238, 237, 1)";
+let currentBackground = "rgba(0, 0, 0, 1)";
 
 let boolOnHover = false;
 let boolVanishing = false;
@@ -46,8 +46,10 @@ function createSquares(num) {
     if (num === 1) tempSquare.style.borderRadius = "3px";
     else if (i === 0) tempSquare.style.borderTopLeftRadius = "3px";
     else if (i === num - 1) tempSquare.style.borderTopRightRadius = "3px";
-    else if (i === num * num - num) tempSquare.style.borderBottomLeftRadius = "3px";
-    else if (i === num * num - 1) tempSquare.style.borderBottomRightRadius = "3px";
+    else if (i === num * num - num)
+      tempSquare.style.borderBottomLeftRadius = "3px";
+    else if (i === num * num - 1)
+      tempSquare.style.borderBottomRightRadius = "3px";
     tempSquare.addEventListener("mouseenter", (e) => onEnterSquare(e));
     if (boolVanishing) {
       tempSquare.addEventListener("mouseleave", (e) => onLeaveSquare(e));
@@ -57,23 +59,16 @@ function createSquares(num) {
   squaresContainer.append(...arr);
 }
 
+
 function onEnterSquare(hoveredSquareEvent) {
   if (boolOnHover || hoveredSquareEvent.buttons > 0) {
     const hoveredSquare = hoveredSquareEvent.target;
     if (boolRainbow) {
       hoveredSquare.style.backgroundColor = randomColor();
     } else if (boolDarken) {
-      if (hoveredSquare.style.backgroundColor !== BLACKBACKGROUND) {
-        hoveredSquare.style.opacity = 0;
-        hoveredSquare.style.backgroundColor = BLACKBACKGROUND;
-      }
-      newOpacity = (parseInt(hoveredSquare.style.opacity * 10) + 1) / 10;
-      if (hoveredSquare.style.opacity >= 1) {
-        newOpacity = 1;
-      }
-      hoveredSquare.style.opacity = newOpacity;
+      darken(hoveredSquare);
     } else {
-      hoveredSquare.style.backgroundColor = BLACKBACKGROUND;
+      hoveredSquare.style.backgroundColor = currentBackground;
     }
     hoveredSquare.style.transitionDuration = TRANSITIONINTIME + "s";
   }
@@ -83,7 +78,7 @@ function onLeaveSquare(hoveredSquareEvent) {
   const hoveredSquare = hoveredSquareEvent.target;
   setTimeout(() => {
     hoveredSquare.style.transitionDuration = TRANSITIONOUTTIME + "s";
-    hoveredSquare.style.backgroundColor = "rgb(255, 255, 255)";
+    hoveredSquare.style.backgroundColor = WHITEBACKGROUND;
   }, TRANSITIONINTIME * 1000);
 }
 
@@ -95,12 +90,65 @@ function randomColor() {
   return `rgba(${random(256)}, ${random(256)}, ${random(256)}, 1)`;
 }
 
-function calculateColor(currentColor) {
-  let newColor;
-  if ((currentColor = "")) return "rgba(0, 0, 0, 0)";
-  console.log(currentColor);
-  const alpha = parseInt(currentColor.split(",")[3].slice(0, -1));
-  return `rgba(0, 0, 0, ${alpha + 0.1})`;
+function darken (square) {
+  if (compareColors(square.style.backgroundColor, WHITEBACKGROUND)){
+    square.style.backgroundColor = zeroizeAlpha(currentBackground);
+  }
+  square.style.backgroundColor = raiseAlpha(
+    square.style.backgroundColor
+  );
+}
+
+function zeroizeAlpha(color) {
+  const rgba = getRGBA(color);
+  rgba[3] = 0;
+  return createRGBAtring(rgba);
+}
+
+function raiseAlpha(color) {
+  const rgba = getRGBA(color);
+  if (rgba[3] < 1) rgba[3] = rgba[3] + 0.1;
+  return createRGBAtring(rgba);
+}
+
+function createRGBAtring(rgbaArr) {
+  return `rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, ${rgbaArr[3]})`;
+}
+
+function getRGBA(color) {
+  let rgbaArray;
+  let slicePosition;
+
+  if (color.charAt(3) != "a") slicePosition = 4;
+  else slicePosition = 5;
+
+  rgbaArray = color
+    .slice(slicePosition, color.length - 1)
+    .replace(/ /g, "")
+    .split(",");
+
+  for (let i = 0; i < rgbaArray.length; i++)
+    rgbaArray[i] = parseFloat(rgbaArray[i]);
+
+  if (rgbaArray.length === 3) rgbaArray.push(1);
+
+  return rgbaArray;
+}
+
+function compareColors(color1, color2, alpha) {
+  // alpha = false for no alpha, true for alpha
+  color1Rgba = getRGBA(color1);
+  color2Rgba = getRGBA(color2);
+
+  let till = color1Rgba.length;
+  if (!alpha)
+    till--;
+
+  for (let i = 0; i < till; i++) {
+    if (color1Rgba[i] !== color2Rgba[i]) return false;
+  }
+
+  return true;
 }
 
 // input field redraw
@@ -132,12 +180,20 @@ btnOnHover.addEventListener("click", (e) => {
 btnRainbow.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   boolRainbow = !boolRainbow;
+  if (boolDarken) {
+    boolDarken = false;
+    btnDarken.classList.toggle("btn-pushed");
+  }
   drawBoard(input.value);
 });
 
 btnDarken.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   boolDarken = !boolDarken;
+  if (boolRainbow) {
+    boolRainbow = false;
+    btnRainbow.classList.toggle("btn-pushed");
+  }
   drawBoard(input.value);
 });
 
@@ -174,14 +230,9 @@ function disableDragAndDrop() {
 
 disableDragAndDrop();
 
-color = "rgba(149, 232, 65, 0.8)";
-arr = color.slice(5, color.length - 1);
-arr = arr.replace(/ /g, "");
-console.log(arr);
-
 // clear
 
-// grid lines 
+// grid lines
 
 // eraser
 

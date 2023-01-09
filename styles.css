@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 body {
   display: flex;
@@ -7,7 +7,7 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .etch-container {
@@ -26,25 +26,26 @@ body {
 }
 
 .knob {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    background: #f9f8fd;
-    border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  background: #f9f8fd;
+  border-radius: 50%;
 }
 
 .left-knob {
-    box-shadow: 1px -2px 2px 3px #d7c8cf;
-    bottom: 14px;
-    left: 20px;
+  box-shadow: 1px -2px 2px 3px #d7c8cf;
+  bottom: 14px;
+  left: 20px;
 }
 
 .right-knob {
-    box-shadow: -1px -2px 2px 3px #d7c8cf;
-    bottom: 14px;
-    right: 20px;
+  box-shadow: -1px -2px 2px 3px #d7c8cf;
+  bottom: 14px;
+  right: 20px;
 }
 .squares-container {
+  background-color: #f2eeed;
   width: 560px;
   height: 560px;
   border: 2px solid #000;
@@ -52,12 +53,6 @@ body {
   box-sizing: content-box;
   display: grid;
   box-shadow: 0 0 3px 16px #e95757;
-}
-
-.square {
-  border: 1px solid rgb(4, 0, 255);
-  background-color: aqua;
-  box-sizing: border-box;
 }
 
 .squares-container div {
@@ -69,7 +64,7 @@ button {
   background-color: #ffffff00;
   border: 2px solid #000;
   border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 button:hover {
