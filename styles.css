@@ -22,9 +22,11 @@ h1 {
 
 p {
   color: #fff;
+  margin: 0;
 }
 
 .etch-container {
+  margin-top: 48px;
   padding: 30px;
   background-color: #fb222a;
   box-shadow: 0 0 5px 1px #df242a;
@@ -189,4 +191,30 @@ input[type="range"]:focus::-webkit-slider-runnable-track {
   margin: 0 0 0 8px;
   flex-shrink: 0;
   min-width: 72px;
+}
+
+.seperator {
+  flex: 1;
+}
+
+.footer {
+  text-align: center;
+  font-size: 14px;
+  padding: 8px 0;
+  color: #000;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.footer p {
+  display: inline-block;
+  margin-right: 3px;
+}
+
+.footer a {
+  text-decoration: none;
+}
+
+i {
+  color: #000;
 }

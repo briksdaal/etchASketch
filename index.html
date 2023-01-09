@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
+    <link
+      href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
+      rel="stylesheet"
+    />
     <script src="script.js" defer></script>
     <title>Etch-A-Sketch</title>
   </head>
@@ -19,7 +23,7 @@
 
       <div class="bottom-container">
         <div class="input-slider">
-          <input type="range" min="1"/>
+          <input type="range" min="1" />
           <p class="input-value"></p>
         </div>
         <div class="bottom-container-inner">
@@ -28,14 +32,27 @@
           <button class="btn-on-hover">On Hover</button>
           <button class="btn-rainbow">Rainbow</button>
           <button class="btn-darken">Darken</button>
+          <button class="btn-eraser">Eraser</button>
         </div>
       </div>
 
       <div class="side-container">
         <button class="btn-grid">Grid</button>
         <button class="btn-clear">Clear</button>
-        <button class="btn-eraser">Eraser</button>
       </div>
+    </div>
+    <div class="seperator"></div>
+    <div class="footer">
+      <p>
+        Copyright ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        Briksdaal
+      </p>
+      <a href="https://github.com/briksdaal" target="_blank">
+        <i class="icon-github"></i
+      ></a>
     </div>
   </body>
 </html>
