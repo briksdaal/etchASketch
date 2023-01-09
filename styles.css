@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@400;700&display=swap");
 
 body {
   display: flex;
@@ -81,7 +81,7 @@ p {
 }
 
 .bottom-container-inner button {
-    width: 106px;
+  width: 106px;
 }
 
 .side-container {
@@ -95,7 +95,8 @@ p {
   bottom: 160px;
 }
 
-.side-container button, .side-container input {
+.side-container button,
+.side-container input {
   width: 60px;
 }
 
@@ -129,9 +130,9 @@ p {
 }
 
 button {
+  font-weight: 700;
   padding: 5px 10px;
   background-color: #ffffff00;
-  /* border: 2px solid #000; */
   border: 1px solid #fef075;
   color: #fff;
   border-radius: 5px;
@@ -139,7 +140,6 @@ button {
 }
 
 button:hover {
-  /* background-color: #c0c0c0; */
   background-color: #d96161;
   color: #fff;
 }
@@ -153,12 +153,6 @@ button:hover {
   background-color: #9f0e0e;
   color: #fff;
 }
-/* 
-.picker-container {
-    display: flex;
-    border-radius: 50%;
-    overflow: hidden;
-} */
 
 input[type="color"] {
   height: 27px;
@@ -177,7 +171,7 @@ input[type="color"]::-webkit-color-swatch {
 
 .input-slider {
   display: flex;
-  margin-left:80px;
+  margin-left: 80px;
 }
 
 input[type="range"] {

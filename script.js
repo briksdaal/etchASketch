@@ -1,7 +1,7 @@
 const DEFAULTNUMBEROFSQUARES = 16;
+const MAXSQUARES = 64;
 const TRANSITIONINTIME = 0.7;
 const TRANSITIONOUTTIME = 3;
-const MAXSQUARES = 64;
 const WHITEBACKGROUND = "rgba(242, 238, 237, 1)";
 const BLACKBACKGROUND = "rgba(115, 115, 115, 1)";
 
@@ -24,6 +24,7 @@ const btnGrid = document.querySelector(".btn-grid");
 const btnEraser = document.querySelector(".btn-eraser");
 const btnColor = document.querySelector(".btn-color");
 
+// main squares creation functions
 function drawBoard(newNumOfSquares) {
   clearSquares();
   if (newNumOfSquares >= MAXSQUARES) {
@@ -72,7 +73,7 @@ function createSquares(num) {
   squaresContainer.append(...arr);
 }
 
-// for all enter square events, both when hovering and clicking
+// for all mouseenter square events, both when hovering and clicking
 function onEnterSquare(hoveredSquareEvent) {
   if (boolOnHover || hoveredSquareEvent.buttons > 0) {
     const hoveredSquare = hoveredSquareEvent.target;
@@ -115,6 +116,7 @@ function onLeaveSquare(hoveredSquareEvent) {
   }
 }
 
+// rainbow functions
 function random(n) {
   return Math.floor(Math.random() * n);
 }
@@ -189,17 +191,6 @@ function compareColors(color1, color2, alpha) {
 
   return true;
 }
-
-// redraw after input slider change
-input.addEventListener("change", (e) => {
-  drawBoard(e.target.value);
-});
-
-input.addEventListener("input", (e) => {
-  changeInputElements(e.target.value);
-});
-
-changeInputElements;
 
 // buttons listeners for effects and events
 btnVanishing.addEventListener("click", (e) => {
@@ -302,8 +293,17 @@ function disableDragAndDrop() {
 }
 disableDragAndDrop();
 
+// redraw after input slider change
+input.addEventListener("change", (e) => {
+  drawBoard(e.target.value);
+});
+
+input.addEventListener("input", (e) => {
+  changeInputElements(e.target.value);
+});
+
+// initial squares and values creation
 input.max = MAXSQUARES;
-// main drawing function
 colorPicker.value = toHex(BLACKBACKGROUND);
 changeInputElements(DEFAULTNUMBEROFSQUARES);
 drawBoard(DEFAULTNUMBEROFSQUARES);
