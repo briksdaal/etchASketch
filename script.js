@@ -3,10 +3,14 @@ const TRANSITIONINTIME = 0.7;
 const TRANSITIONOUTTIME = 3;
 const MAXSQUARES = 100;
 
+const WHITEBACKGROUND = 'rgba(242, 238, 237, 1)';
+const BLACKBACKGROUND = 'rgba(0, 0, 0, 1)';
+
 let boolOnHover = false;
 let boolVanishing = false;
 let boolRainbow = false;
 let boolDarken = false;
+let boolEraser = false;
 
 const squaresContainer = document.querySelector(".squares-container");
 const input = document.querySelector("input");
@@ -21,6 +25,7 @@ function drawBoard(newNumOfSquares) {
     newNumOfSquares = 1;
   }
   input.value = newNumOfSquares;
+  input.nextSibling.textContent = newNumOfSquares;
   createSquares(newNumOfSquares);
 }
 
@@ -31,13 +36,18 @@ function clearSquares() {
 }
 
 function createSquares(num) {
+  num = parseInt(num);
   squaresContainer.style.gridTemplateColumns = `repeat(${num}, 1fr)`;
   const square = document.createElement("div");
-
   const arr = [];
   for (let i = 0; i < num * num; i++) {
     tempSquare = square.cloneNode(true);
-    tempSquare.style.backgroundColor = "#f2eeed";
+    tempSquare.style.backgroundColor = WHITEBACKGROUND;
+    if (num === 1) tempSquare.style.borderRadius = "3px";
+    else if (i === 0) tempSquare.style.borderTopLeftRadius = "3px";
+    else if (i === num - 1) tempSquare.style.borderTopRightRadius = "3px";
+    else if (i === num * num - num) tempSquare.style.borderBottomLeftRadius = "3px";
+    else if (i === num * num - 1) tempSquare.style.borderBottomRightRadius = "3px";
     tempSquare.addEventListener("mouseenter", (e) => onEnterSquare(e));
     if (boolVanishing) {
       tempSquare.addEventListener("mouseleave", (e) => onLeaveSquare(e));
@@ -53,9 +63,9 @@ function onEnterSquare(hoveredSquareEvent) {
     if (boolRainbow) {
       hoveredSquare.style.backgroundColor = randomColor();
     } else if (boolDarken) {
-      if (hoveredSquare.style.backgroundColor !== "rgb(0, 0, 0)") {
+      if (hoveredSquare.style.backgroundColor !== BLACKBACKGROUND) {
         hoveredSquare.style.opacity = 0;
-        hoveredSquare.style.backgroundColor = "#000";
+        hoveredSquare.style.backgroundColor = BLACKBACKGROUND;
       }
       newOpacity = (parseInt(hoveredSquare.style.opacity * 10) + 1) / 10;
       if (hoveredSquare.style.opacity >= 1) {
@@ -63,7 +73,7 @@ function onEnterSquare(hoveredSquareEvent) {
       }
       hoveredSquare.style.opacity = newOpacity;
     } else {
-      hoveredSquare.style.backgroundColor = "rgb(0, 0, 0)";
+      hoveredSquare.style.backgroundColor = BLACKBACKGROUND;
     }
     hoveredSquare.style.transitionDuration = TRANSITIONINTIME + "s";
   }
@@ -82,7 +92,7 @@ function random(n) {
 }
 
 function randomColor() {
-  return `rgb(${random(256)}, ${random(256)}, ${random(256)})`;
+  return `rgba(${random(256)}, ${random(256)}, ${random(256)}, 1)`;
 }
 
 function calculateColor(currentColor) {
@@ -98,17 +108,14 @@ input.addEventListener("input", (e) => {
   drawBoard(e.target.value);
 });
 
-// reset button redraw
-resetButton = document.querySelector(".reset-button");
-resetButton.addEventListener("click", () => {
-  const newNumOfSquares = prompt("Enter new sq", 16);
-  drawBoard(newNumOfSquares);
-});
-
 btnVanishing = document.querySelector(".btn-vanishing");
 btnOnHover = document.querySelector(".btn-on-hover");
 btnRainbow = document.querySelector(".btn-rainbow");
 btnDarken = document.querySelector(".btn-darken");
+btnClear = document.querySelector(".btn-clear");
+// btnGrid = document.querySelector(".btn-grid");
+btnEraser = document.querySelector(".btn-eraser");
+btnColor = document.querySelector(".btn-color");
 
 btnVanishing.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
@@ -134,18 +141,48 @@ btnDarken.addEventListener("click", (e) => {
   drawBoard(input.value);
 });
 
+btnClear.addEventListener("click", (e) => {
+  e.target.classList.toggle("btn-pushed");
+  setTimeout(() => e.target.classList.toggle("btn-pushed"), 100);
+  drawBoard(input.value);
+});
+
+// btnGrid.addEventListener("click", (e) => {
+//   e.target.classList.toggle("btn-pushed");
+//   boolDarken = !boolDarken;
+//   drawBoard(input.value);
+// });
+
+btnEraser.addEventListener("click", (e) => {
+  e.target.classList.toggle("btn-pushed");
+  boolDarken = !boolDarken;
+  drawBoard(input.value);
+});
+
+btnColor.addEventListener("click", (e) => {
+  e.target.classList.toggle("btn-pushed");
+  boolDarken = !boolDarken;
+  drawBoard(input.value);
+});
 
 function disableDragAndDrop() {
   const body = document.querySelector("body");
-  body.addEventListener("dragstart",(event)=>{
+  body.addEventListener("dragstart", (event) => {
     event.preventDefault();
-  })
+  });
 }
 
 disableDragAndDrop();
 
-color = 'rgba(149, 232, 65, 0.8)';
+color = "rgba(149, 232, 65, 0.8)";
 arr = color.slice(5, color.length - 1);
 arr = arr.replace(/ /g, "");
 console.log(arr);
 
+// clear
+
+// grid lines 
+
+// eraser
+
+// color picker
