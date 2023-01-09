@@ -10,23 +10,32 @@
   </head>
   <body>
     <div class="etch-container">
+      <h1>Etch-A-Sketch</h1>
       <div class="inner-etch-container">
         <div class="squares-container"></div>
         <div class="knob left-knob"></div>
+        <div class="knob right-knob"></div>
       </div>
-      <div class="knob right-knob"></div>
+
+      <div class="bottom-container">
+        <div class="input-slider">
+          <input type="range" min="1"/>
+          <p class="input-value"></p>
+        </div>
+        <div class="bottom-container-inner">
+          <input type="color" class="color-picker" />
+          <button class="btn-vanishing">Vanishing Ink</button>
+          <button class="btn-on-hover">On Hover</button>
+          <button class="btn-rainbow">Rainbow</button>
+          <button class="btn-darken">Darken</button>
+        </div>
+      </div>
+
+      <div class="side-container">
+        <button class="btn-grid">Grid</button>
+        <button class="btn-clear">Clear</button>
+        <button class="btn-eraser">Eraser</button>
+      </div>
     </div>
-    <div class="input-slider"><input type="range" min="1" max="100"><p></p></div>
-    
-    <p>
-      <button class="btn-vanishing">Vanishing Ink</button>
-      <button class="btn-on-hover">On Hover</button>
-      <button class="btn-rainbow">Rainbow</button>
-      <button class="btn-darken">Darken</button>
-      <button class="btn-clear">Clear</button>
-      <!-- <button class="btn-grid">Show Grid</button> -->
-      <button class="btn-eraser">Eraser</button>
-      <input type ="color" class="color-picker">
-    </p>
   </body>
 </html>

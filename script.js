@@ -1,11 +1,11 @@
 const DEFAULTNUMBEROFSQUARES = 16;
 const TRANSITIONINTIME = 0.7;
 const TRANSITIONOUTTIME = 3;
-const MAXSQUARES = 100;
-
+const MAXSQUARES = 64;
 const WHITEBACKGROUND = "rgba(242, 238, 237, 1)";
-let currentBackground = "rgba(0, 0, 0, 1)";
+const BLACKBACKGROUND = "rgba(0, 0, 0, 1)";
 
+let currentBackground = BLACKBACKGROUND;
 let boolOnHover = false;
 let boolVanishing = false;
 let boolRainbow = false;
@@ -13,10 +13,16 @@ let boolDarken = false;
 let boolEraser = false;
 
 const squaresContainer = document.querySelector(".squares-container");
-const input = document.querySelector("input");
-const colorPicker = document.querySelector(".color-picker");
-
-drawBoard(DEFAULTNUMBEROFSQUARES);
+const input = document.querySelector("input[type=range]");
+const colorPicker = document.querySelector("input[type=color]");
+const btnVanishing = document.querySelector(".btn-vanishing");
+const btnOnHover = document.querySelector(".btn-on-hover");
+const btnRainbow = document.querySelector(".btn-rainbow");
+const btnDarken = document.querySelector(".btn-darken");
+const btnClear = document.querySelector(".btn-clear");
+const btnGrid = document.querySelector(".btn-grid");
+const btnEraser = document.querySelector(".btn-eraser");
+const btnColor = document.querySelector(".btn-color");
 
 function drawBoard(newNumOfSquares) {
   clearSquares();
@@ -26,7 +32,7 @@ function drawBoard(newNumOfSquares) {
     newNumOfSquares = 1;
   }
   input.value = newNumOfSquares;
-  input.nextSibling.textContent = newNumOfSquares;
+  input.nextElementSibling.textContent = `${newNumOfSquares} X ${newNumOfSquares}`;
   createSquares(newNumOfSquares);
 }
 
@@ -51,6 +57,12 @@ function createSquares(num) {
       tempSquare.style.borderBottomLeftRadius = "3px";
     else if (i === num * num - 1)
       tempSquare.style.borderBottomRightRadius = "3px";
+
+    if (i < num)
+      tempSquare.style.borderTop = "0";
+    if (i % num === 0)  
+    tempSquare.style.borderLeft = "0";
+
     tempSquare.addEventListener("mouseenter", (e) => onEnterSquare(e));
     tempSquare.addEventListener("mousedown", (e) => onMousedownSquare(e));
     tempSquare.addEventListener("mouseleave", (e) => onLeaveSquare(e));
@@ -59,6 +71,7 @@ function createSquares(num) {
   squaresContainer.append(...arr);
 }
 
+// for all enter square events, both when hovering and clicking
 function onEnterSquare(hoveredSquareEvent) {
   if (boolOnHover || hoveredSquareEvent.buttons > 0) {
     const hoveredSquare = hoveredSquareEvent.target;
@@ -75,6 +88,7 @@ function onEnterSquare(hoveredSquareEvent) {
   }
 }
 
+// specifically to deal with the first square being clicked on
 function onMousedownSquare(hoveredSquareEvent) {
   const hoveredSquare = hoveredSquareEvent.target;
   if (boolEraser) {
@@ -89,8 +103,9 @@ function onMousedownSquare(hoveredSquareEvent) {
   hoveredSquare.style.transitionDuration = TRANSITIONINTIME + "s";
 }
 
+// for the vanishing ink effect
 function onLeaveSquare(hoveredSquareEvent) {
-  if ((boolVanishing) && (boolOnHover || hoveredSquareEvent.buttons > 0)) {
+  if (boolVanishing && (boolOnHover || hoveredSquareEvent.buttons > 0)) {
     const hoveredSquare = hoveredSquareEvent.target;
     setTimeout(() => {
       hoveredSquare.style.transitionDuration = TRANSITIONOUTTIME + "s";
@@ -107,6 +122,7 @@ function randomColor() {
   return `rgba(${random(256)}, ${random(256)}, ${random(256)}, 1)`;
 }
 
+// calculates rgba and ups alpha by 10% if necessary
 function darken(square) {
   if (!compareColors(square.style.backgroundColor, currentBackground)) {
     square.style.backgroundColor = zeroizeAlpha(currentBackground);
@@ -130,6 +146,7 @@ function createRGBAtring(rgbaArr) {
   return `rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, ${rgbaArr[3]})`;
 }
 
+//gets rgba array back from rgb and rgba strings
 function getRGBA(color) {
   let rgbaArray;
   let slicePosition;
@@ -165,67 +182,98 @@ function compareColors(color1, color2, alpha) {
   return true;
 }
 
-// input field redraw
+// redraw after input slider change
 input.addEventListener("input", (e) => {
   drawBoard(e.target.value);
 });
 
-btnVanishing = document.querySelector(".btn-vanishing");
-btnOnHover = document.querySelector(".btn-on-hover");
-btnRainbow = document.querySelector(".btn-rainbow");
-btnDarken = document.querySelector(".btn-darken");
-btnClear = document.querySelector(".btn-clear");
-// btnGrid = document.querySelector(".btn-grid");
-btnEraser = document.querySelector(".btn-eraser");
-btnColor = document.querySelector(".btn-color");
-
+// buttons listeners for effects and events
 btnVanishing.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   boolVanishing = !boolVanishing;
+
+  boolEraser = false;
+  btnEraser.classList.remove("btn-pushed");
 });
 
 btnOnHover.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   boolOnHover = !boolOnHover;
+
+  boolEraser = false;
+  btnEraser.classList.remove("btn-pushed");
 });
 
 btnRainbow.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   boolRainbow = !boolRainbow;
-  if (boolDarken) {
-    boolDarken = false;
-    btnDarken.classList.toggle("btn-pushed");
-  }
+
+  boolDarken = false;
+  btnDarken.classList.remove("btn-pushed");
+
+  boolEraser = false;
+  btnEraser.classList.remove("btn-pushed");
 });
 
 btnDarken.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   boolDarken = !boolDarken;
-  if (boolRainbow) {
-    boolRainbow = false;
-    btnRainbow.classList.toggle("btn-pushed");
-  }
+
+  boolRainbow = false;
+  btnRainbow.classList.remove("btn-pushed");
+
+  boolEraser = false;
+  btnEraser.classList.remove("btn-pushed");
 });
 
 btnClear.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   setTimeout(() => e.target.classList.toggle("btn-pushed"), 100);
+
+  boolEraser = false;
+  btnEraser.classList.remove("btn-pushed");
+
+  boolVanishing = false;
+  btnVanishing.classList.remove("btn-pushed");
+
+  boolOnHover = false;
+  btnOnHover.classList.remove("btn-pushed");
+
+  boolRainbow = false;
+  btnRainbow.classList.remove("btn-pushed");
+
+  boolDarken = false;
+  btnDarken.classList.remove("btn-pushed");
+
+  btnGrid.classList.remove("btn-pushed");
+  squaresContainer.classList.remove("grid");
+
+  currentBackground = BLACKBACKGROUND;
+  colorPicker.value = "#000000";
+
   drawBoard(input.value);
 });
 
-// btnGrid.addEventListener("click", (e) => {
-//   e.target.classList.toggle("btn-pushed");
-//   boolDarken = !boolDarken;
-//   drawBoard(input.value);
-// });
+btnGrid.addEventListener("click", (e) => {
+  e.target.classList.toggle("btn-pushed");
+  squaresContainer.classList.toggle("grid");
+});
 
 btnEraser.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   boolEraser = !boolEraser;
-  if (boolOnHover) {
-    boolOnHover = false;
-    btnOnHover.classList.toggle("btn-pushed");
-  }
+
+  boolVanishing = false;
+  btnVanishing.classList.remove("btn-pushed");
+
+  boolOnHover = false;
+  btnOnHover.classList.remove("btn-pushed");
+
+  boolRainbow = false;
+  btnRainbow.classList.remove("btn-pushed");
+
+  boolDarken = false;
+  btnDarken.classList.remove("btn-pushed");
 });
 
 colorPicker.addEventListener("input", (e) => {
@@ -234,19 +282,15 @@ colorPicker.addEventListener("input", (e) => {
   currentBackground = dummy.style.backgroundColor;
 });
 
+// disabling drag and drop prevents a grab icon from showing up during drawing
 function disableDragAndDrop() {
   const body = document.querySelector("body");
   body.addEventListener("dragstart", (event) => {
     event.preventDefault();
   });
 }
-
 disableDragAndDrop();
 
-// clear
-
-// grid lines
-
-// eraser
-
-// color picker
+input.max = MAXSQUARES;
+// main drawing function
+drawBoard(DEFAULTNUMBEROFSQUARES);

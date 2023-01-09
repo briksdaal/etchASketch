@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto&display=swap");
 
 body {
   display: flex;
@@ -8,6 +8,20 @@ body {
   height: 100vh;
   margin: 0;
   font-family: "Roboto", sans-serif;
+}
+
+h1 {
+  font-family: "Dancing Script", serif;
+  position: absolute;
+  left: 284px;
+  top: 6px;
+  color: #f1b940;
+  text-shadow: -1px 1px 0 #fef075;
+  font-size: 49px;
+}
+
+p {
+  color: #fff;
 }
 
 .etch-container {
@@ -26,6 +40,9 @@ body {
 }
 
 .knob {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100px;
   height: 100px;
   position: absolute;
@@ -44,6 +61,32 @@ body {
   bottom: 14px;
   right: 20px;
 }
+
+.bottom-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  bottom: 20px;
+  left: 200px;
+}
+
+.bottom-container-inner {
+}
+
+.side-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 70px;
+  position: absolute;
+  bottom: 200px;
+  right: 40px;
+}
+
 .squares-container {
   background-color: #f2eeed;
   width: 560px;
@@ -59,25 +102,91 @@ body {
   transition: background-color linear;
 }
 
+.squares-container.grid div {
+  border-color: #000;
+  border-left: 1px solid;
+  border-top: 1px solid;
+}
+
 button {
   padding: 5px 10px;
   background-color: #ffffff00;
-  border: 2px solid #000;
+  /* border: 2px solid #000; */
+  border: 1px solid #fef075;
+  color: #fff;
   border-radius: 5px;
   font-family: "Roboto", sans-serif;
 }
 
 button:hover {
-  background-color: #c0c0c0;
+  /* background-color: #c0c0c0; */
+  background-color: #d96161;
   color: #fff;
 }
 
 .btn-pushed:hover {
-  background-color: #505050;
+  background-color: #c91010;
   color: #fff;
 }
 
 .btn-pushed {
-  background-color: #242424;
+  background-color: #9f0e0e;
   color: #fff;
+}
+/* 
+.picker-container {
+    display: flex;
+    border-radius: 50%;
+    overflow: hidden;
+} */
+
+input[type="color"] {
+  height: 50px;
+  -webkit-appearance: none;
+  border: none;
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
+.input-slider {
+  display: flex;
+}
+
+input[type="range"] {
+  background-color: #ffffff00;
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  cursor: pointer;
+  box-shadow: 0px 0px 1px 1px #d7c8cf;
+  width: 100%;
+  height: 6px;
+  border-radius: 1px;
+  background: #f2eeed;
+}
+input[type="range"]::-webkit-slider-thumb {
+  cursor: pointer;
+  box-shadow: 0px 0px 1px 1px #d7c8cf;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #f2eeed;
+  -webkit-appearance: none;
+  margin-top: -4px;
+}
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: #f2eeed;
+}
+
+.input-value {
+  margin: 0 0 0 8px;
+  flex-shrink: 0;
+  min-width: 72px;
 }
