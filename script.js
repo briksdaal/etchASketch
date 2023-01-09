@@ -3,7 +3,7 @@ const TRANSITIONINTIME = 0.7;
 const TRANSITIONOUTTIME = 3;
 const MAXSQUARES = 64;
 const WHITEBACKGROUND = "rgba(242, 238, 237, 1)";
-const BLACKBACKGROUND = "rgba(0, 0, 0, 1)";
+const BLACKBACKGROUND = "rgba(115, 115, 115, 1)";
 
 let currentBackground = BLACKBACKGROUND;
 let boolOnHover = false;
@@ -168,6 +168,13 @@ function getRGBA(color) {
   return rgbaArray;
 }
 
+function toHex(color) {
+  const rgbaArray = getRGBA(color);
+  const hexArray = [];
+  rgbaArray.forEach((rgba) => hexArray.push(rgba.toString(16)));
+  return `#${hexArray[0]}${hexArray[1]}${hexArray[2]}`;
+}
+
 function compareColors(color1, color2, alpha) {
   // alpha = false for no alpha, true for alpha
   color1Rgba = getRGBA(color1);
@@ -251,9 +258,9 @@ btnClear.addEventListener("click", (e) => {
 
   boolDarken = false;
   btnDarken.classList.remove("btn-pushed");
-  
+
   currentBackground = BLACKBACKGROUND;
-  colorPicker.value = "#000000";
+  colorPicker.value = toHex(currentBackground);
 
   drawBoard(input.value);
 });
@@ -297,5 +304,6 @@ disableDragAndDrop();
 
 input.max = MAXSQUARES;
 // main drawing function
+colorPicker.value = toHex(BLACKBACKGROUND);
 changeInputElements(DEFAULTNUMBEROFSQUARES);
 drawBoard(DEFAULTNUMBEROFSQUARES);
