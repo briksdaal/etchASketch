@@ -31,9 +31,12 @@ function drawBoard(newNumOfSquares) {
   } else if (newNumOfSquares < 1) {
     newNumOfSquares = 1;
   }
+  createSquares(newNumOfSquares);
+}
+
+function changeInputElements(newNumOfSquares) {
   input.value = newNumOfSquares;
   input.nextElementSibling.textContent = `${newNumOfSquares} X ${newNumOfSquares}`;
-  createSquares(newNumOfSquares);
 }
 
 function clearSquares() {
@@ -58,10 +61,8 @@ function createSquares(num) {
     else if (i === num * num - 1)
       tempSquare.style.borderBottomRightRadius = "3px";
 
-    if (i < num)
-      tempSquare.style.borderTop = "0";
-    if (i % num === 0)  
-    tempSquare.style.borderLeft = "0";
+    if (i < num) tempSquare.style.borderTop = "0";
+    if (i % num === 0) tempSquare.style.borderLeft = "0";
 
     tempSquare.addEventListener("mouseenter", (e) => onEnterSquare(e));
     tempSquare.addEventListener("mousedown", (e) => onMousedownSquare(e));
@@ -183,9 +184,15 @@ function compareColors(color1, color2, alpha) {
 }
 
 // redraw after input slider change
-input.addEventListener("input", (e) => {
+input.addEventListener("change", (e) => {
   drawBoard(e.target.value);
 });
+
+input.addEventListener("input", (e) => {
+  changeInputElements(e.target.value);
+});
+
+changeInputElements;
 
 // buttons listeners for effects and events
 btnVanishing.addEventListener("click", (e) => {
@@ -244,10 +251,7 @@ btnClear.addEventListener("click", (e) => {
 
   boolDarken = false;
   btnDarken.classList.remove("btn-pushed");
-
-  btnGrid.classList.remove("btn-pushed");
-  squaresContainer.classList.remove("grid");
-
+  
   currentBackground = BLACKBACKGROUND;
   colorPicker.value = "#000000";
 
@@ -293,4 +297,5 @@ disableDragAndDrop();
 
 input.max = MAXSQUARES;
 // main drawing function
+changeInputElements(DEFAULTNUMBEROFSQUARES);
 drawBoard(DEFAULTNUMBEROFSQUARES);

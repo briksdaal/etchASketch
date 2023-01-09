@@ -70,11 +70,18 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  bottom: 20px;
-  left: 200px;
+  gap: 16px;
+  bottom: 38px;
+  left: 180px;
 }
 
 .bottom-container-inner {
+  display: flex;
+  gap: 16px;
+}
+
+.bottom-container-inner button {
+    width: 106px;
 }
 
 .side-container {
@@ -82,11 +89,25 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  gap: 16px;
   width: 70px;
   position: absolute;
   bottom: 200px;
   right: 40px;
+}
+
+.side-container button, .side-container input {
+  width: 60px;
+}
+
+.side-container-right {
+  bottom: 200px;
+  right: 36px;
+}
+
+.side-container-left {
+  bottom: 200px;
+  left: 36px;
 }
 
 .squares-container {
@@ -143,10 +164,12 @@ button:hover {
 } */
 
 input[type="color"] {
-  height: 50px;
+  height: 27px;
   -webkit-appearance: none;
-  border: none;
   padding: 0;
+  border: 1px solid #fef075;
+  border-radius: 5px;
+  overflow: hidden;
 }
 input[type="color"]::-webkit-color-swatch-wrapper {
   padding: 0;
@@ -157,6 +180,7 @@ input[type="color"]::-webkit-color-swatch {
 
 .input-slider {
   display: flex;
+  margin-left: 76px;
 }
 
 input[type="range"] {
@@ -209,6 +233,7 @@ input[type="range"]:focus::-webkit-slider-runnable-track {
 .footer p {
   display: inline-block;
   margin-right: 3px;
+  color: #000;
 }
 
 .footer a {
