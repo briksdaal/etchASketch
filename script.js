@@ -14,6 +14,7 @@ let boolEraser = false;
 
 const squaresContainer = document.querySelector(".squares-container");
 const input = document.querySelector("input");
+const colorPicker = document.querySelector(".color-picker");
 
 drawBoard(DEFAULTNUMBEROFSQUARES);
 
@@ -51,22 +52,22 @@ function createSquares(num) {
     else if (i === num * num - 1)
       tempSquare.style.borderBottomRightRadius = "3px";
     tempSquare.addEventListener("mouseenter", (e) => onEnterSquare(e));
-    if (boolVanishing) {
-      tempSquare.addEventListener("mouseleave", (e) => onLeaveSquare(e));
-    }
+    tempSquare.addEventListener("mousedown", (e) => onMousedownSquare(e));
+    tempSquare.addEventListener("mouseleave", (e) => onLeaveSquare(e));
     arr.push(tempSquare);
   }
   squaresContainer.append(...arr);
 }
 
-
 function onEnterSquare(hoveredSquareEvent) {
   if (boolOnHover || hoveredSquareEvent.buttons > 0) {
     const hoveredSquare = hoveredSquareEvent.target;
-    if (boolRainbow) {
-      hoveredSquare.style.backgroundColor = randomColor();
+    if (boolEraser) {
+      hoveredSquare.style.backgroundColor = WHITEBACKGROUND;
     } else if (boolDarken) {
       darken(hoveredSquare);
+    } else if (boolRainbow) {
+      hoveredSquare.style.backgroundColor = randomColor();
     } else {
       hoveredSquare.style.backgroundColor = currentBackground;
     }
@@ -74,12 +75,28 @@ function onEnterSquare(hoveredSquareEvent) {
   }
 }
 
-function onLeaveSquare(hoveredSquareEvent) {
+function onMousedownSquare(hoveredSquareEvent) {
   const hoveredSquare = hoveredSquareEvent.target;
-  setTimeout(() => {
-    hoveredSquare.style.transitionDuration = TRANSITIONOUTTIME + "s";
+  if (boolEraser) {
     hoveredSquare.style.backgroundColor = WHITEBACKGROUND;
-  }, TRANSITIONINTIME * 1000);
+  } else if (boolDarken) {
+    darken(hoveredSquare);
+  } else if (boolRainbow) {
+    hoveredSquare.style.backgroundColor = randomColor();
+  } else {
+    hoveredSquare.style.backgroundColor = currentBackground;
+  }
+  hoveredSquare.style.transitionDuration = TRANSITIONINTIME + "s";
+}
+
+function onLeaveSquare(hoveredSquareEvent) {
+  if ((boolVanishing) && (boolOnHover || hoveredSquareEvent.buttons > 0)) {
+    const hoveredSquare = hoveredSquareEvent.target;
+    setTimeout(() => {
+      hoveredSquare.style.transitionDuration = TRANSITIONOUTTIME + "s";
+      hoveredSquare.style.backgroundColor = WHITEBACKGROUND;
+    }, TRANSITIONINTIME * 1000);
+  }
 }
 
 function random(n) {
@@ -90,13 +107,11 @@ function randomColor() {
   return `rgba(${random(256)}, ${random(256)}, ${random(256)}, 1)`;
 }
 
-function darken (square) {
-  if (compareColors(square.style.backgroundColor, WHITEBACKGROUND)){
+function darken(square) {
+  if (!compareColors(square.style.backgroundColor, currentBackground)) {
     square.style.backgroundColor = zeroizeAlpha(currentBackground);
   }
-  square.style.backgroundColor = raiseAlpha(
-    square.style.backgroundColor
-  );
+  square.style.backgroundColor = raiseAlpha(square.style.backgroundColor);
 }
 
 function zeroizeAlpha(color) {
@@ -141,8 +156,7 @@ function compareColors(color1, color2, alpha) {
   color2Rgba = getRGBA(color2);
 
   let till = color1Rgba.length;
-  if (!alpha)
-    till--;
+  if (!alpha) till--;
 
   for (let i = 0; i < till; i++) {
     if (color1Rgba[i] !== color2Rgba[i]) return false;
@@ -168,13 +182,11 @@ btnColor = document.querySelector(".btn-color");
 btnVanishing.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   boolVanishing = !boolVanishing;
-  drawBoard(input.value);
 });
 
 btnOnHover.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
   boolOnHover = !boolOnHover;
-  drawBoard(input.value);
 });
 
 btnRainbow.addEventListener("click", (e) => {
@@ -184,7 +196,6 @@ btnRainbow.addEventListener("click", (e) => {
     boolDarken = false;
     btnDarken.classList.toggle("btn-pushed");
   }
-  drawBoard(input.value);
 });
 
 btnDarken.addEventListener("click", (e) => {
@@ -194,7 +205,6 @@ btnDarken.addEventListener("click", (e) => {
     boolRainbow = false;
     btnRainbow.classList.toggle("btn-pushed");
   }
-  drawBoard(input.value);
 });
 
 btnClear.addEventListener("click", (e) => {
@@ -211,14 +221,17 @@ btnClear.addEventListener("click", (e) => {
 
 btnEraser.addEventListener("click", (e) => {
   e.target.classList.toggle("btn-pushed");
-  boolDarken = !boolDarken;
-  drawBoard(input.value);
+  boolEraser = !boolEraser;
+  if (boolOnHover) {
+    boolOnHover = false;
+    btnOnHover.classList.toggle("btn-pushed");
+  }
 });
 
-btnColor.addEventListener("click", (e) => {
-  e.target.classList.toggle("btn-pushed");
-  boolDarken = !boolDarken;
-  drawBoard(input.value);
+colorPicker.addEventListener("input", (e) => {
+  dummy = document.createElement("p");
+  dummy.style.backgroundColor = e.target.value;
+  currentBackground = dummy.style.backgroundColor;
 });
 
 function disableDragAndDrop() {
