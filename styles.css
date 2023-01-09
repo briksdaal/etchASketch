@@ -180,7 +180,7 @@ input[type="color"]::-webkit-color-swatch {
 
 .input-slider {
   display: flex;
-  margin-left: 76px;
+  margin-left:80px;
 }
 
 input[type="range"] {
