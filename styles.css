@@ -92,8 +92,7 @@ p {
   gap: 16px;
   width: 70px;
   position: absolute;
-  bottom: 200px;
-  right: 40px;
+  bottom: 160px;
 }
 
 .side-container button, .side-container input {
@@ -101,12 +100,10 @@ p {
 }
 
 .side-container-right {
-  bottom: 200px;
   right: 36px;
 }
 
 .side-container-left {
-  bottom: 200px;
   left: 36px;
 }
 
